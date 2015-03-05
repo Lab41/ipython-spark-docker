@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# redirect stderr->stdout
+exec 2>&1
+
+# start ssh daemon
+exec /usr/sbin/sshd -D -e

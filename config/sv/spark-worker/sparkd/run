@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# redirect stderr->stdout
+exec 2>&1
+
+# runsvdir-start clears environment variables
+# initially import all variables
+source /env.bash
+
+# start worker and connect to master (if not running)
+if ! $(ps aux | rgrep -q "spark-assembly"); then
+  $SPARK_HOME/bin/spark-class org.apache.spark.deploy.worker.Worker $SPARK_MASTER
+fi
