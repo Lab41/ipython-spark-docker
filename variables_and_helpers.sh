@@ -30,3 +30,49 @@ function build_docker_image() {
   docker build  -f ${__dockerfile_dir}/${__image}.dockerfile \
                 -t $__image .
 }
+
+# detect DNS server
+function dns_detect() {
+  local __dns=${__dns:=$(cat /etc/resolv.conf | grep -m 1 nameserver | cut -d' ' -f 2)}
+  if [ "$__dns" == "127.0.1.1" ]; then
+    __dns=$(nm-tool | grep DNS | sed 's/\s//g' | cut -d':' -f 2)
+  fi
+  echo "$__dns"
+}
+
+
+# get container's ip address
+function container_get_ip() {
+  local __container=$1
+  local __ip=""
+  __ip=$(sudo docker inspect $__container | jq --raw-output '.[].NetworkSettings.IPAddress')
+  echo "$__ip"
+}
+
+
+# setup host->container port forwarding
+function host_forward_multiple_ports_to_container() {
+  local __container=$1
+  local __ip=$(container_get_ip $__container)
+
+  if [ "" == "$__ip" ]; then
+    echo "ERROR: count not get ip for container $__container"
+  else
+
+    echo "forwarding all ports to container $__container at $__ip"
+
+    # create chain (will fail if already exists)
+    sudo /sbin/iptables -t nat -N $__ipchain
+
+    # flush chain rules
+    sudo /sbin/iptables -t nat -F $__ipchain
+    for rule in $(sudo iptables -t nat --line-numbers -L PREROUTING | grep $__ipchain | grep ^[0-9] | awk '{ print $1 }' | tac); do sudo iptables -t nat -D PREROUTING $rule; done
+
+    # NAT forward to new chain
+    sudo /sbin/iptables -t nat -A PREROUTING -j $__ipchain
+
+    # NAT forward host ports to container
+    sudo /sbin/iptables -t nat -A $__ipchain -p tcp -d $__hostname --match multiport --dports $__iptables_ports -j DNAT --to-destination $__ip
+
+  fi
+}
