@@ -1,5 +1,5 @@
 # hadoop client for Lab41's CHD5 cluster
-FROM richhaase/cdh5-hadoop
+FROM lab41/cdh5-hadoop
 MAINTAINER Kyle F <kylef@lab41.org>
 
 

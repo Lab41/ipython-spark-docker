@@ -4,6 +4,8 @@
 # default variables
 ############################################################
 # image naming scheme (prefix/label)
+__image_upstream_oracle=lab41/oracle-jdk7
+__image_upstream_cdh5=lab41/cdh5-hadoop
 __image_base=lab41/spark-base
 __image_master=lab41/spark-master
 __image_worker=lab41/spark-worker
