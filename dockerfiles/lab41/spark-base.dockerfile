@@ -75,19 +75,19 @@ RUN pip install pyyaml nltk
 RUN pip install networkx
 
 #LLVM and Numba
-#NOTE: As of 2015-06-12, Numba requires module enum34, which requires LLVM 3.5,
-#       which requires gcc-4.7/g++-4.7, which is not compiling on the
-#       Ubuntu:12.04 base image. Disabling LLVM/Numba below for now until we can
-#       update/test to use Ubuntu:14.04 base
-#RUN cd /tmp && \
-#    wget http://llvm.org/releases/3.2/llvm-3.2.src.tar.gz && \
-#    tar zxvf llvm-3.2.src.tar.gz && \
-#    cd llvm-3.2.src && \
-#    ./configure --enable-optimized && \
-#    REQUIRES_RTTI=1 make install && \
-#    pip install llvmpy && \
-#    pip install llvmmath && \
-#    pip install numba
+RUN cd /tmp && \
+    wget http://llvm.org/releases/3.6.1/llvm-3.6.1.src.tar.xz && \
+    tar xvf llvm-3.6.1.src.tar.xz && \
+    cd llvm-3.6.1.src && \
+    ./configure --enable-optimized
+RUN cd /tmp/llvm-3.6.1.src && \
+    REQUIRES_RTTI=1 make install
+RUN pip install enum34
+RUN cd /tmp && \
+    git clone https://github.com/numba/llvmlite && \
+    cd llvmlite && \
+    python setup.py install
+RUN pip install numba
 
 #Biopython
 RUN pip install biopython
@@ -96,13 +96,13 @@ RUN pip install biopython
 RUN pip install requests bokeh
 
 #Install R 3+
-#RUN echo 'deb http://cran.rstudio.com/bin/linux/ubuntu trusty/' > /etc/apt/sources.list.d/r.list
-#RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-#RUN apt-get update
-#RUN apt-get install -y r-base r-base-core r-base-html r-recommended
+RUN echo 'deb http://cran.rstudio.com/bin/linux/ubuntu trusty/' > /etc/apt/sources.list.d/r.list && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+RUN apt-get update && \
+    apt-get install -y r-base r-base-core r-base-html r-recommended
 
-##Rmagic
-#RUN pip install rpy2
+#Rmagic
+RUN pip install rpy2
 
 # vincent
 RUN pip install vincent
