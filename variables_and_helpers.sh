@@ -27,6 +27,7 @@ __host_dir_ipython_notebook=$(pwd)/runtime/ipython
 # NOTE: requires Dockerfiles in shared directory that follows naming scheme: prefix/label.dockerfile
 function build_docker_image() {
   local __image=$1
+  echo -e "\n\n ----- Building $__image ----- \n\n"
   docker build  -f ${__dockerfile_dir}/${__image}.dockerfile \
                 -t $__image .
 }
