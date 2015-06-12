@@ -38,7 +38,7 @@ Docker containers provide a portable and repeatable method for deploying the clu
     </tr>
     <tr>
       <td><a href="http://cython.org" target="_blank">Cython</a></td>
-      <td><a href="http://numba.pydata.org" target="_blank">Numba*</a></td>
+      <td><a href="http://numba.pydata.org" target="_blank">Numba</a></td>
       <td><a href="http://biopython.org" target="_blank">Biopython</a></td>
       <td><a href="http://ipython.org/ipython-doc/dev/config/extensions/rmagic.html" target="_blank">Rmagic</a></td>
       <td><a href="http://zeromq.org/bindings:python" target="_blank">0MQ</a></td>
@@ -49,13 +49,12 @@ Docker containers provide a portable and repeatable method for deploying the clu
       <td><a href="http://statsmodels.sourceforge.net/" target="_blank">Statsmodels</a></td>
       <td><a href="http://www.crummy.com/software/BeautifulSoup/" target="_blank">Beautiful Soup</a></td>
       <td><a href="https://networkx.github.io/" target="_blank">NetworkX</a></td>
-      <td><a href="http://numba.pydata.org/" target="_blank">LLVM*</a></td>
+      <td><a href="http://numba.pydata.org/" target="_blank">LLVM</a></td>
       <td><a href="http://bokeh.pydata.org/" target="_blank">Bokeh</a></td>
       <td><a href="https://github.com/wrobstory/vincent" target="_blank">Vincent</a></td>
       <td><a href="http://mdp-toolkit.sourceforge.net/" target="_blank">MDP</a></td>
     </tr>
 </table>
-<div>* NOTE: As of 2015-06-12, Numba requires module enum34, which requires LLVM 3.5, which requires gcc-4.7/g++-4.7, which is not compiling on the Ubuntu:12.04 base image. Disabling LLVM/Numba for now until we can update/test to use Ubuntu:14.04 base
 
 
 ## Usage
