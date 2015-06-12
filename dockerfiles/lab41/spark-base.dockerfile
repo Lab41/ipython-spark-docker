@@ -75,15 +75,19 @@ RUN pip install pyyaml nltk
 RUN pip install networkx
 
 #LLVM and Numba
-RUN cd /tmp && \
-    wget http://llvm.org/releases/3.2/llvm-3.2.src.tar.gz && \
-    tar zxvf llvm-3.2.src.tar.gz && \
-    cd llvm-3.2.src && \
-    ./configure --enable-optimized && \
-    REQUIRES_RTTI=1 make install && \
-    pip install llvmpy && \
-    pip install llvmmath && \
-    pip install numba
+#NOTE: As of 2015-06-12, Numba requires module enum34, which requires LLVM 3.5,
+#       which requires gcc-4.7/g++-4.7, which is not compiling on the
+#       Ubuntu:12.04 base image. Disabling LLVM/Numba below for now until we can
+#       update/test to use Ubuntu:14.04 base
+#RUN cd /tmp && \
+#    wget http://llvm.org/releases/3.2/llvm-3.2.src.tar.gz && \
+#    tar zxvf llvm-3.2.src.tar.gz && \
+#    cd llvm-3.2.src && \
+#    ./configure --enable-optimized && \
+#    REQUIRES_RTTI=1 make install && \
+#    pip install llvmpy && \
+#    pip install llvmmath && \
+#    pip install numba
 
 #Biopython
 RUN pip install biopython
