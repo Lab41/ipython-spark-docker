@@ -7,7 +7,5 @@ exec 2>&1
 # initially import all variables
 source /env.bash
 
-# start master (if not running)
-if ! $(ps aux | rgrep -q "spark-assembly"); then
-  $SPARK_HOME/sbin/start-master.sh
-fi
+# start master
+$SPARK_HOME/sbin/start-master.sh
