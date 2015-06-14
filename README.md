@@ -38,7 +38,7 @@ Docker containers provide a portable and repeatable method for deploying the clu
     </tr>
     <tr>
       <td><a href="http://cython.org" target="_blank">Cython</a></td>
-      <td><a href="http://numba.pydata.org" target="_blank">Numba*</a></td>
+      <td><a href="http://numba.pydata.org" target="_blank">Numba</a></td>
       <td><a href="http://biopython.org" target="_blank">Biopython</a></td>
       <td><a href="http://ipython.org/ipython-doc/dev/config/extensions/rmagic.html" target="_blank">Rmagic</a></td>
       <td><a href="http://zeromq.org/bindings:python" target="_blank">0MQ</a></td>
@@ -49,31 +49,31 @@ Docker containers provide a portable and repeatable method for deploying the clu
       <td><a href="http://statsmodels.sourceforge.net/" target="_blank">Statsmodels</a></td>
       <td><a href="http://www.crummy.com/software/BeautifulSoup/" target="_blank">Beautiful Soup</a></td>
       <td><a href="https://networkx.github.io/" target="_blank">NetworkX</a></td>
-      <td><a href="http://numba.pydata.org/" target="_blank">LLVM*</a></td>
+      <td><a href="http://numba.pydata.org/" target="_blank">LLVM</a></td>
       <td><a href="http://bokeh.pydata.org/" target="_blank">Bokeh</a></td>
       <td><a href="https://github.com/wrobstory/vincent" target="_blank">Vincent</a></td>
       <td><a href="http://mdp-toolkit.sourceforge.net/" target="_blank">MDP</a></td>
     </tr>
 </table>
-<div>* NOTE: As of 2015-06-12, Numba requires module enum34, which requires LLVM 3.5, which requires gcc-4.7/g++-4.7, which is not compiling on the Ubuntu:12.04 base image. Disabling LLVM/Numba for now until we can update/test to use Ubuntu:14.04 base
 
 
 ## Usage
 
-**Installation Prerequisites** - Prepare hosts and Docker environment:
+**Installation and Deployment** - Build each Docker image and run each on separate dedicated hosts
+<div><strong>Tip</strong>: Build a common/shared host image with all necessary configurations and pre-built containers, which you can then use to deploy each node. When starting each node, you can pass the container run scripts as <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">User data</a> to initialize that container at boot time</div>
 
-  1. Build host nodes with
-    - <a href="http://docs.docker.com/installation/ubuntulinux" target="_blank">Docker v1.5+</a>
-    - <a href="http://packages.ubuntu.com/trusty/jq" target="_blank">jq JSON processor</a>
-    - <a href="http://packages.ubuntu.com/trusty/iptables" target="_blank">iptables</a>
+1. <strong>Build and configure hosts</strong>
+  1. Install <a href="http://docs.docker.com/installation/ubuntulinux" target="_blank">Docker v1.5+</a>, <a href="http://packages.ubuntu.com/trusty/jq" target="_blank">jq JSON processor</a>, and <a href="http://packages.ubuntu.com/trusty/iptables" target="_blank">iptables</a>. For example, on an Ubuntu host:
+    <pre><code>./0-prepare-host.sh</code></pre>
   2. Update the Hadoop configuration files in ```config/cdh5/<multiple-files>``` with the correct hostnames for your Hadoop cluster.  Use ```grep FIXME -R .``` to find hostnames to change.
   3. Generate new SSH keypair (```config/ssh/id_rsa``` and ```config/ssh/id_rsa.pub```), adding the public key to ```config/ssh/authorized_keys```.
   4. (optional) Update ```SPARK_WORKER_CONFIG``` environment variable for Spark-specific options such as executor cores.  Update the variable via a shell ```export``` command or by updating ```config/sv/spark-client-iython/ipython/run```.
   5. (optional) Comment out any unwanted packages in the base Dockerfile image ```dockerfiles/lab41/spark-base.dockerfile```.
 
-**Building/Running** - Build each Docker image and run each on separate dedicated hosts:
+2. <strong>Build all Docker images</strong>: <pre><code>./1-build.sh</code></pre> <div>If you are following the tip above and creating common/shared host images, this would be the point to snapshot the host image for replication</div>
 
-1. <strong>Build all images</strong>: <pre><code>./1.build.sh</code></pre>
-2. <strong>Run master</strong>: <pre><code>./2.run-spark-master.sh</code></pre>
-3. <strong>Run worker(s)</strong>: <pre><code>./3.run-spark-worker.sh spark://spark-master:port</code></pre>
-4. <strong>Run client</strong>: <pre><code>./4.run-spark-client-ipython.sh spark://spark-master:port</code></pre>
+3. <strong>Deploy cluster nodes</strong>
+<div>Ensure each host has a Fully-Qualified-Domain-Name (i.e. master.domain.com; worker1.domain.com; ipython.domain.com) for the Spark nodes to properly associate</div>
+  1. <strong>Run the master container on the master host</strong>: <pre><code>./2-run-spark-master.sh</code></pre>
+  2. <strong>Run worker container(s) on worker host(s)</strong> (replace 'spark-master-fqdn' below): <pre><code>./3-run-spark-worker.sh spark://spark-master-fqdn:7077</code></pre>
+  3. <strong>Run the client container on the client host</strong> (replace 'spark-master-fqdn' below): <pre><code>./4-run-spark-client-ipython.sh spark://spark-master-fqdn:7077</code></pre>

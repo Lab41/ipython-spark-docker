@@ -4,6 +4,8 @@
 # default variables
 ############################################################
 # image naming scheme (prefix/label)
+__image_upstream_oracle=lab41/oracle-jdk7
+__image_upstream_cdh5=lab41/cdh5-hadoop
 __image_base=lab41/spark-base
 __image_master=lab41/spark-master
 __image_worker=lab41/spark-worker
@@ -27,6 +29,7 @@ __host_dir_ipython_notebook=$(pwd)/runtime/ipython
 # NOTE: requires Dockerfiles in shared directory that follows naming scheme: prefix/label.dockerfile
 function build_docker_image() {
   local __image=$1
+  echo -e "\n\n ----- Building $__image ----- \n\n"
   docker build  -f ${__dockerfile_dir}/${__image}.dockerfile \
                 -t $__image .
 }
