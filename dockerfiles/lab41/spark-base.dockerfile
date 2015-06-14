@@ -119,7 +119,8 @@ RUN cd /tmp; git clone https://github.com/mdp-toolkit/mdp-toolkit.git && \
     cd /; rm -rf /tmp/mdp-toolkit
 RUN easy_install MDP
 
-
+# jsonschema needed for IPython
+RUN pip install jsonschema
 
 ########################################################
 # configure for remote hadoop cluster
