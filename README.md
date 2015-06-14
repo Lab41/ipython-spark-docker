@@ -65,26 +65,8 @@ Docker containers provide a portable and repeatable method for deploying the clu
     - <a href="http://docs.docker.com/installation/ubuntulinux" target="_blank">Docker v1.5+</a>
     - <a href="http://packages.ubuntu.com/trusty/jq" target="_blank">jq JSON processor</a>
     - <a href="http://packages.ubuntu.com/trusty/iptables" target="_blank">iptables</a>
-    For example, on an Ubuntu host:
-    ```sh
-      # install prerequisites
-      sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
-      sudo sh -c "echo deb https://get.docker.com/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
-      sudo apt-get update
-
-      # install docker
-      sudo apt-get install --assume-yes linux-image-extra-`uname -r`
-      sudo apt-get install --assume-yes software-properties-common golang-go apparmor lxc-docker jq
-
-      # configure docker (i.e. force devicemapper)
-      sudo ln -sf /usr/bin/docker /usr/local/bin/docker
-      sudo sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker
-      sudo sed -i 's|^#*DOCKER_OPTS.*$|DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock"|g' /etc/default/docker
-
-      # create docker group and add user
-      sudo groupadd docker
-      sudo usermod -aG docker $(whoami)
-    ```
+    <div>For example, on an Ubuntu host:</div>
+    <pre><code>./0-prepare-host.sh</code></pre>
   2. Update the Hadoop configuration files in ```config/cdh5/<multiple-files>``` with the correct hostnames for your Hadoop cluster.  Use ```grep FIXME -R .``` to find hostnames to change.
   3. Generate new SSH keypair (```config/ssh/id_rsa``` and ```config/ssh/id_rsa.pub```), adding the public key to ```config/ssh/authorized_keys```.
   4. (optional) Update ```SPARK_WORKER_CONFIG``` environment variable for Spark-specific options such as executor cores.  Update the variable via a shell ```export``` command or by updating ```config/sv/spark-client-iython/ipython/run```.
