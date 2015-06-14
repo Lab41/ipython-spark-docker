@@ -59,25 +59,21 @@ Docker containers provide a portable and repeatable method for deploying the clu
 
 ## Usage
 
-**Installation Prerequisites** - Prepare hosts and Docker environment:
+**Installation and Deployment** - Build each Docker image and run each on separate dedicated hosts
+<div><strong>Tip</strong>: Build a common/shared host image with all necessary configurations and pre-built containers, which you can then use to deploy each node. When starting each node, you can pass the container run scripts as <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">User data</a> to initialize that container at boot time</div>
 
-  1. Build host nodes with
-    - <a href="http://docs.docker.com/installation/ubuntulinux" target="_blank">Docker v1.5+</a>
-    - <a href="http://packages.ubuntu.com/trusty/jq" target="_blank">jq JSON processor</a>
-    - <a href="http://packages.ubuntu.com/trusty/iptables" target="_blank">iptables</a>
-    <div>For example, on an Ubuntu host:</div>
+1. <strong>Build and configure hosts</strong>
+  1. Install <a href="http://docs.docker.com/installation/ubuntulinux" target="_blank">Docker v1.5+</a>, <a href="http://packages.ubuntu.com/trusty/jq" target="_blank">jq JSON processor</a>, and <a href="http://packages.ubuntu.com/trusty/iptables" target="_blank">iptables</a>. For example, on an Ubuntu host:
     <pre><code>./0-prepare-host.sh</code></pre>
   2. Update the Hadoop configuration files in ```config/cdh5/<multiple-files>``` with the correct hostnames for your Hadoop cluster.  Use ```grep FIXME -R .``` to find hostnames to change.
   3. Generate new SSH keypair (```config/ssh/id_rsa``` and ```config/ssh/id_rsa.pub```), adding the public key to ```config/ssh/authorized_keys```.
   4. (optional) Update ```SPARK_WORKER_CONFIG``` environment variable for Spark-specific options such as executor cores.  Update the variable via a shell ```export``` command or by updating ```config/sv/spark-client-iython/ipython/run```.
   5. (optional) Comment out any unwanted packages in the base Dockerfile image ```dockerfiles/lab41/spark-base.dockerfile```.
 
-**Building/Running** - Build each Docker image and run each on separate dedicated hosts:
+2. <strong>Build all Docker images</strong>: <pre><code>./1-build.sh</code></pre> <div>If you are following the tip above and creating common/shared host images, this would be the point to snapshot the host image for replication</div>
 
-1. <strong>Build all images</strong>: <pre><code>./1-build.sh</code></pre>
-2. <strong>Deploy cluster nodes</strong>
-  - Ensure each host has a Fully-Qualified-Domain-Name (i.e. master.domain.com; worker1.domain.com; ipython.domain.com)
-  - Tip: Create a shared host image with pre-built containers and pass the below scripts as startup commands on each host type
-3. <strong>Run master container on master host</strong>: <pre><code>./2-run-spark-master.sh</code></pre>
-4. <strong>Run worker container(s) on worker host(s)</strong>: <pre><code>./3-run-spark-worker.sh spark://<spark-master-fqdn>:7077</code></pre>
-5. <strong>Run client container on client host</strong>: <pre><code>./4-run-spark-client-ipython.sh spark://<spark-master-fqdn>:7077</code></pre>
+3. <strong>Deploy cluster nodes</strong>
+<div>Ensure each host has a Fully-Qualified-Domain-Name (i.e. master.domain.com; worker1.domain.com; ipython.domain.com) for the Spark nodes to properly associate</div>
+  1. <strong>Run the master container on the master host</strong>: <pre><code>./2-run-spark-master.sh</code></pre>
+  2. <strong>Run worker container(s) on worker host(s)</strong> (replace 'spark-master-fqdn' below): <pre><code>./3-run-spark-worker.sh spark://spark-master-fqdn:7077</code></pre>
+  3. <strong>Run the client container on the client host</strong> (replace 'spark-master-fqdn' below): <pre><code>./4-run-spark-client-ipython.sh spark://spark-master-fqdn:7077</code></pre>
