@@ -75,6 +75,9 @@ Docker containers provide a portable and repeatable method for deploying the clu
 **Building/Running** - Build each Docker image and run each on separate dedicated hosts:
 
 1. <strong>Build all images</strong>: <pre><code>./1-build.sh</code></pre>
-2. <strong>Run master</strong>: <pre><code>./2-run-spark-master.sh</code></pre>
-3. <strong>Run worker(s)</strong>: <pre><code>./3-run-spark-worker.sh spark://<spark-master-fqdn>:7077</code></pre>
-4. <strong>Run client</strong>: <pre><code>./4-run-spark-client-ipython.sh spark://<spark-master-fqdn>:7077</code></pre>
+2. <strong>Deploy cluster nodes</strong>
+  - Ensure each host has a Fully-Qualified-Domain-Name (i.e. master.domain.com; worker1.domain.com; ipython.domain.com)
+  - Tip: Create a shared host image with pre-built containers and pass the below scripts as startup commands on each host type
+3. <strong>Run master container on master host</strong>: <pre><code>./2-run-spark-master.sh</code></pre>
+4. <strong>Run worker container(s) on worker host(s)</strong>: <pre><code>./3-run-spark-worker.sh spark://<spark-master-fqdn>:7077</code></pre>
+5. <strong>Run client container on client host</strong>: <pre><code>./4-run-spark-client-ipython.sh spark://<spark-master-fqdn>:7077</code></pre>
