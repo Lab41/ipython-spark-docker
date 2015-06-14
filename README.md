@@ -72,7 +72,7 @@ Docker containers provide a portable and repeatable method for deploying the clu
 
 **Building/Running** - Build each Docker image and run each on separate dedicated hosts:
 
-1. <strong>Build all images</strong>: <pre><code>./1.build.sh</code></pre>
-2. <strong>Run master</strong>: <pre><code>./2.run-spark-master.sh</code></pre>
-3. <strong>Run worker(s)</strong>: <pre><code>./3.run-spark-worker.sh spark://spark-master:port</code></pre>
-4. <strong>Run client</strong>: <pre><code>./4.run-spark-client-ipython.sh spark://spark-master:port</code></pre>
+1. <strong>Build all images</strong>: <pre><code>./1-build.sh</code></pre>
+2. <strong>Run master</strong>: <pre><code>./2-run-spark-master.sh</code></pre>
+3. <strong>Run worker(s)</strong>: <pre><code>./3-run-spark-worker.sh spark://<spark-master-fqdn>:7077</code></pre>
+4. <strong>Run client</strong>: <pre><code>./4-run-spark-client-ipython.sh spark://<spark-master-fqdn>:7077</code></pre>
