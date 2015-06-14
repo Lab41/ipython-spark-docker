@@ -19,6 +19,8 @@ __hostname=$(hostname --fqdn)
 
 # container-specific
 __host_dir_ipython_notebook=$(pwd)/runtime/ipython
+__host_dir_hadoop_conf=$(pwd)/runtime/cdh5/hadoop/conf
+__host_dir_hive_conf=$(pwd)/runtime/cdh5/hive/conf
 
 
 ############################################################

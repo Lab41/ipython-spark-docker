@@ -27,6 +27,8 @@ __container=$(docker run  -d \
                           --hostname="$__hostname" \
                           --dns=$__dns \
                           --env "SPARK_MASTER=$__spark_master" \
+                          --volume=$__host_dir_hadoop_conf:/etc/hadoop/conf \
+                          --volume=$__host_dir_hive_conf:/etc/hive/conf \
                           --volume=$__host_dir_ipython_notebook:/ipython \
                             $__image)
 
