@@ -132,12 +132,8 @@ ENV JAVA_HOME /opt/jdk/jdk1.7.0_67
 # add custom shell env
 ADD config/environment/bashrc.sh /.bashrc
 
-# add remote cluster config
-ADD config/cdh5/hadoop /etc/hadoop/conf
-ADD config/cdh5/hive /etc/hive/conf
-
-# enable data volume
-VOLUME ["/data"]
+# enable data volumes, including CDH5 conf directories
+VOLUME ["/data", "/etc/hadoop/conf", "/etc/hive/conf"]
 
 
 
