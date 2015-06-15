@@ -19,6 +19,8 @@ __hostname=$(hostname --fqdn)
 
 # container-specific
 __host_dir_ipython_notebook=$(pwd)/runtime/ipython
+__host_dir_hadoop_conf=$(pwd)/runtime/cdh5/hadoop/conf
+__host_dir_hive_conf=$(pwd)/runtime/cdh5/hive/conf
 
 
 ############################################################
@@ -30,8 +32,9 @@ __host_dir_ipython_notebook=$(pwd)/runtime/ipython
 function build_docker_image() {
   local __image=$1
   echo -e "\n\n ----- Building $__image ----- \n\n"
-  docker build  -f ${__dockerfile_dir}/${__image}.dockerfile \
-                -t $__image .
+  pushd ${__dockerfile_dir}/${__image}
+  docker build -t $__image .
+  popd
 }
 
 # detect DNS server

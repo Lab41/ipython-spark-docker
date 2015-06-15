@@ -2,8 +2,5 @@
 FROM lab41/spark-base
 MAINTAINER Kyle F <kylef@lab41.org>
 
-# update workdir
-WORKDIR /ipython
-
 # add runit services
-ADD config/sv/spark-client-ipython /etc/service
+ADD config/service /etc/service

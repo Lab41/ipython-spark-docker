@@ -17,6 +17,8 @@ echo "starting $__image..."
 __container=$(docker run  -d \
                           --hostname="$__hostname" \
                           --dns=$__dns \
+                          --volume=$__host_dir_hadoop_conf:/etc/hadoop/conf \
+                          --volume=$__host_dir_hive_conf:/etc/hive/conf \
                             $__image)
 
 
