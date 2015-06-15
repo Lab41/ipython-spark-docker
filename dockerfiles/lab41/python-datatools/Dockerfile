@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 
 #Utilities
-RUN apt-get install -y vim less net-tools inetutils-ping curl git telnet nmap socat dnsutils netcat tree htop unzip sudo software-properties-common
+RUN apt-get install -y vim less net-tools inetutils-ping curl git telnet nmap socat dnsutils netcat tree htop unzip sudo software-properties-common pkg-config
 
 #Required by Python packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential python-dev python-pip liblapack-dev libatlas-dev gfortran libfreetype6 libfreetype6-dev libpng12-dev python-lxml libyaml-dev g++ libffi-dev
@@ -41,7 +41,6 @@ RUN pip install pandas
 RUN pip install cython
 RUN pip install jinja2 pyzmq tornado
 RUN pip install numexpr bottleneck scipy pygments
-RUN apt-get install pkg-config
 RUN pip install matplotlib
 RUN pip install sympy pymc
 RUN pip install patsy
