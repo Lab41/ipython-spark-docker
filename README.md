@@ -65,12 +65,19 @@ Docker containers provide a portable and repeatable method for deploying the clu
 1. <strong>Build and configure hosts</strong>
   1. Install <a href="http://docs.docker.com/installation/ubuntulinux" target="_blank">Docker v1.5+</a>, <a href="http://packages.ubuntu.com/trusty/jq" target="_blank">jq JSON processor</a>, and <a href="http://packages.ubuntu.com/trusty/iptables" target="_blank">iptables</a>. For example, on an Ubuntu host:
     <pre><code>./0-prepare-host.sh</code></pre>
-  2. Update the Hadoop configuration files in ```config/cdh5/<multiple-files>``` with the correct hostnames for your Hadoop cluster.  Use ```grep FIXME -R .``` to find hostnames to change.
+  2. Update the Hadoop configuration files in ```runtime/cdh5/<hadoop|hive>/<multiple-files>``` with the correct hostnames for your Hadoop cluster.  Use ```grep FIXME -R .``` to find hostnames to change.
   3. Generate new SSH keypair (```config/ssh/id_rsa``` and ```config/ssh/id_rsa.pub```), adding the public key to ```config/ssh/authorized_keys```.
   4. (optional) Update ```SPARK_WORKER_CONFIG``` environment variable for Spark-specific options such as executor cores.  Update the variable via a shell ```export``` command or by updating ```config/sv/spark-client-iython/ipython/run```.
   5. (optional) Comment out any unwanted packages in the base Dockerfile image ```dockerfiles/lab41/spark-base.dockerfile```.
 
-2. <strong>Build all Docker images</strong>: <pre><code>./1-build.sh</code></pre> <div>If you are following the tip above and creating common/shared host images, this would be the point to snapshot the host image for replication</div>
+2. <strong>Get Docker images</strong>:
+<div>Option A: If you prefer to pull from Docker Hub:
+<pre><code>docker pull lab41/spark-master
+docker pull lab41/spark-worker
+docker pull lab41/spark-client-ipython</code></pre>
+<div>Option B: If you prefer to build from scratch yourself:
+<pre><code>./1-build.sh</code></pre>
+<div>If you are creating common/shared host images, this would be the point to snapshot the host image for replication.</div>
 
 3. <strong>Deploy cluster nodes</strong>
 <div>Ensure each host has a Fully-Qualified-Domain-Name (i.e. master.domain.com; worker1.domain.com; ipython.domain.com) for the Spark nodes to properly associate</div>

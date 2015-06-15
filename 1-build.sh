@@ -11,6 +11,8 @@ source variables_and_helpers.sh
 # build images
 build_docker_image $__image_upstream_oracle
 build_docker_image $__image_upstream_cdh5
+build_docker_image $__image_upstream_python
+build_docker_image $__image_upstream_llvm
 build_docker_image $__image_base
 build_docker_image $__image_master
 build_docker_image $__image_worker
