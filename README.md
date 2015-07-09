@@ -62,6 +62,9 @@ Docker containers provide a portable and repeatable method for deploying the clu
 **Installation and Deployment** - Build each Docker image and run each on separate dedicated hosts
 <div><strong>Tip</strong>: Build a common/shared host image with all necessary configurations and pre-built containers, which you can then use to deploy each node. When starting each node, you can pass the container run scripts as <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">User data</a> to initialize that container at boot time</div>
 
+0. <strong>Prerequisites</strong>
+  - Deploy Hadoop/HDFS cluster. Spark uses a cluster to distrubute analysis of data pulled from multiple sources, including the Hadoop Distrubuted File System (HDFS). The ephemeral nature of Docker containers make them ill-suited for persisting long-term data in a cluster. Instead of attempting to store data within the Docker containers' HDFS nodes or mounting host volumes, it is recommended you point this cluster at an external Hadoop deployment. Cloudera provides complete resources for [installing](http://www.cloudera.com/content/cloudera/en/documentation/cdh5/v5-0-0/CDH5-Installation-Guide/cdh5ig_cdh5_install.html) and [configuring](http://www.cloudera.com/content/cloudera/en/documentation/cdh5/v5-0-0/CDH5-Installation-Guide/cdh5ig_cdh5_cluster_deploy.html) its distribution (CDH) of Hadoop.  This repo has been tested using CDH5.
+
 1. <strong>Build and configure hosts</strong>
   1. Install <a href="http://docs.docker.com/installation/ubuntulinux" target="_blank">Docker v1.5+</a>, <a href="http://packages.ubuntu.com/trusty/jq" target="_blank">jq JSON processor</a>, and <a href="http://packages.ubuntu.com/trusty/iptables" target="_blank">iptables</a>. For example, on an Ubuntu host:
     <pre><code>./0-prepare-host.sh</code></pre>

@@ -14,11 +14,13 @@ Build each Docker image and run each on separate dedicated hosts
 
 ---------------------------------
 
-#### Clone [ipython-spark-docker](https://github.com/Lab41/ipython-spark-docker)
+#### Prerequisites
+  - Deploy Hadoop/HDFS cluster. Spark uses a cluster to distrubute analysis of data pulled from multiple sources, including the Hadoop Distrubuted File System (HDFS). The ephemeral nature of Docker containers make them ill-suited for persisting long-term data in a cluster. Instead of attempting to store data within the Docker containers' HDFS nodes or mounting host volumes, it is recommended you point this cluster at an external Hadoop deployment. Cloudera provides complete resources for [installing](http://www.cloudera.com/content/cloudera/en/documentation/cdh5/v5-0-0/CDH5-Installation-Guide/cdh5ig_cdh5_install.html) and [configuring](http://www.cloudera.com/content/cloudera/en/documentation/cdh5/v5-0-0/CDH5-Installation-Guide/cdh5ig_cdh5_cluster_deploy.html) its distribution (CDH) of Hadoop.  This repo has been tested using CDH5.
 
-```
-git clone https://github.com/Lab41/ipython-spark-docker.git
-```
+  - Clone [ipython-spark-docker](https://github.com/Lab41/ipython-spark-docker)
+  ```
+  git clone https://github.com/Lab41/ipython-spark-docker.git
+  ```
 
 ---------------------------------
 
