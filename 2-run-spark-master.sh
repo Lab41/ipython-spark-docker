@@ -8,6 +8,11 @@ source variables_and_helpers.sh
 __image=$__image_master
 
 
+# update repo and images
+git pull origin master && \
+docker pull $__image # alternatively: ./1-build.sh
+
+
 # get host DNS server (for internal resolution)
 __dns=$(dns_detect)
 
