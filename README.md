@@ -87,4 +87,5 @@ docker pull lab41/spark-client-ipython</code></pre>
   1. <strong>Run the master container on the master host</strong>: <pre><code>./2-run-spark-master.sh</code></pre>
   2. <strong>Run worker container(s) on worker host(s)</strong> (replace 'spark-master-fqdn' below): <pre><code>./3-run-spark-worker.sh spark://spark-master-fqdn:7077</code></pre>
   3. <strong>Run the client container on the client host</strong> (replace 'spark-master-fqdn' and 'mesos-master-fqdn' below): <pre><code>./4-run-spark-client-ipython.sh spark://spark-master-fqdn:7077
-     ./5-run-spark-mesos-client-ipython.sh <username> mesos://mesos-master-fqdn:5050</code></pre>
+     or
+     ./5-run-spark-mesos-client-ipython.sh USER_FOR_MESOS mesos://mesos-master-fqdn:5050</code></pre>
