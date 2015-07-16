@@ -12,7 +12,7 @@ __image_base=lab41/spark-base
 __image_master=lab41/spark-master
 __image_worker=lab41/spark-worker
 __image_client_standalone=lab41/spark-client-ipython
-__image_client_mesos=lab41/mesos-spark-client-ipython
+__image_client_mesos=lab41/spark-mesos-client-ipython
 __dockerfile_dir=$(pwd)/dockerfiles
 
 # networking
