@@ -16,4 +16,5 @@ build_docker_image $__image_upstream_llvm
 build_docker_image $__image_base
 build_docker_image $__image_master
 build_docker_image $__image_worker
-build_docker_image $__image_client
+build_docker_image $__image_client_standalone
+build_docker_image $__image_client_mesos
