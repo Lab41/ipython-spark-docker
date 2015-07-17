@@ -34,3 +34,14 @@ ADD config/bootstrap/bootstrap.sh /bootstrap.sh
 
 # add runit services
 ADD config/service /etc/service
+
+# configure PAM for user auth
+RUN apt-get update --assume-yes
+RUN apt-get upgrade --assume-yes
+RUN apt-get --assume-yes build-dep pam
+
+#Rebuild and install libpam with --disable-audit option
+RUN export CONFIGURE_OPTS=--disable-audit && \
+    cd /root && \
+    apt-get -b source pam && \
+    dpkg -i libpam-doc*.deb libpam-modules*.deb libpam-runtime*.deb libpam0g*.deb
