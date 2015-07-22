@@ -45,3 +45,6 @@ RUN export CONFIGURE_OPTS=--disable-audit && \
     cd /root && \
     apt-get -b source pam && \
     dpkg -i libpam-doc*.deb libpam-modules*.deb libpam-runtime*.deb libpam0g*.deb
+
+# add mesos-specific pyspark shell.py
+ADD config/pyspark/shell.py $SPARK_HOME/python/pyspark/shell.py
