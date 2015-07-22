@@ -18,7 +18,7 @@ __image=$__image_client_standalone
 
 
 # update repo and images
-git pull origin master && \
+#git pull origin master && \
 docker pull $__image # alternatively: ./1-build.sh
 
 
