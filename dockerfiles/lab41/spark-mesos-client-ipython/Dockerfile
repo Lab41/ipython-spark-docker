@@ -48,3 +48,9 @@ RUN export CONFIGURE_OPTS=--disable-audit && \
 
 # add mesos-specific pyspark shell.py
 ADD config/pyspark/shell.py $SPARK_HOME/python/pyspark/shell.py
+
+# expose the IPython notebook port
+EXPOSE 8888
+
+# add data volume
+VOLUME ["/data"]

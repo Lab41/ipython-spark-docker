@@ -48,6 +48,7 @@ __dns=$(dns_detect)
 echo "starting $__image..."
 __container=$(docker run  -d \
                           --net="host" \
+                          --publish=8888:8888 \
                           --env "SPARK_MASTER=$__spark_master" \
                           --env "SPARK_BINARY=$__spark_binary" \
                           --env "SPARK_RAM_DRIVER=8G" \
