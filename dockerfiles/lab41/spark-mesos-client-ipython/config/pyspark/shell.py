@@ -40,6 +40,33 @@ from pyspark.context import SparkContext
 from pyspark.sql import SQLContext, HiveContext
 from pyspark.storagelevel import StorageLevel
 
+
+# find an available port for SparkUI
+def ui_get_available_port():
+  import socket;
+
+  # default UI host/port
+  host = "127.0.0.1"
+  port = 4040
+
+  # check
+  check = notfound = 0
+
+  # find the first available unoccupied port
+  while (check==notfound):
+
+      # check if available
+      sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+      check = sock.connect_ex((host, port))
+
+      # try again if port unavailable
+      if check == notfound:
+         port += 1
+
+  # return the first available port
+  return port
+
+
 # this is the deprecated equivalent of ADD_JARS
 add_files = None
 if os.environ.get("ADD_FILES") is not None:
@@ -50,10 +77,22 @@ if os.environ.get("SPARK_EXECUTOR_URI"):
 
 # setup mesos-based connection
 conf = (SparkConf()
-         .setMaster(os.environ["SPARK_MASTER"])
-         .set("spark.executor.uri", os.environ["SPARK_BINARY"])
-         .set("spark.driver.memory", os.environ["SPARK_RAM_DRIVER"])
-         .set("spark.executor.memory", os.environ["SPARK_RAM_WORKER"]))
+         .setMaster(os.environ["SPARK_MASTER"]))
+
+# optionally set memory limits
+if os.environ.get("SPARK_RAM_DRIVER"):
+    conf.set("spark.driver.memory", os.environ["SPARK_RAM_DRIVER"])
+if os.environ.get("SPARK_RAM_WORKER"):
+    conf.set("spark.executor_memory", os.environ["SPARK_RAM_WORKER"])
+
+# set the UI port
+conf.set("spark.ui.port", ui_get_available_port())
+
+# optionally set the Spark binary
+if os.environ.get("SPARK_BINARY"):
+    conf.set("spark.executor.uri", os.environ["SPARK_BINARY"])
+
+# establish config-based context
 sc = SparkContext(appName="DockerIPythonShell", pyFiles=add_files, conf=conf)
 atexit.register(lambda: sc.stop())
 
