@@ -24,8 +24,8 @@ RUN apt-get install --assume-yes libstdc++6
 RUN pip install --upgrade pyzmq
 
 # update spark libraries latest standalone install
-RUN curl http://d3kbcqa49mib13.cloudfront.net/spark-1.3.1-bin-hadoop2.6.tgz | tar -xz -C /usr/local/ && \
-    cd /usr/local && rm spark && ln -s spark-1.3.1-bin-hadoop2.6 spark && \
+RUN curl http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.4.tgz | tar -xz -C /usr/local/ && \
+    cd /usr/local && rm spark && ln -s spark-1.4.1-bin-hadoop2.4 spark && \
     rm /usr/bin/spark-shell && \
     ln --symbolic /usr/local/spark/bin/spark-shell /usr/bin/spark-shell
 
