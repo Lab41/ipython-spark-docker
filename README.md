@@ -1,6 +1,6 @@
 # ipython-spark-docker
 
-Please see the accompanying blog post, <a href="http://lab41.github.io/blog/2015/04/13/ipython-on-spark-on-docker" target="_blank">Using Docker to Build an IPython-driven Spark Deployment</a>, for the technical details and motivation behind this project.  This repo provides [Docker](http://www.docker.io) containers to run:
+Please see the accompanying blog posts, <a href="http://lab41.github.io/blog/2015/04/13/ipython-on-spark-on-docker" target="_blank">Using Docker to Build an IPython-driven Spark Deployment</a> and <a href="http://lab41.github.io/blog/2015/07/28/triplewide-trailer-looking-to-rig-ipython" target="_blank">Triplewide Trailer, Part 1: Looking to Hitch IPython, Spark, and Mesos to Docker</a>, for the technical details and motivation behind this project.  This repo provides [Docker](http://www.docker.io) containers to run:
   - [Spark](https://spark.apache.org) master and worker(s) on dedicated hosts
   - [IPython](http://ipython.org) user interface within a dedicated Spark client
 
