@@ -10,10 +10,10 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 
 #Utilities
-RUN apt-get install -y vim less net-tools inetutils-ping curl git telnet nmap socat dnsutils netcat tree htop unzip sudo software-properties-common pkg-config
+RUN apt-get install --assume-yes vim less net-tools inetutils-ping curl git telnet nmap socat dnsutils netcat tree htop unzip sudo software-properties-common pkg-config
 
 #Required by Python packages
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential python-dev python-pip liblapack-dev libatlas-dev gfortran libfreetype6 libfreetype6-dev libpng12-dev python-lxml libyaml-dev g++ libffi-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --assume-yes build-essential python-dev python-pip liblapack-dev libatlas-dev gfortran libfreetype6 libfreetype6-dev libpng12-dev python-lxml libyaml-dev g++ libffi-dev
 
 #0MQ
 RUN cd /tmp && \
@@ -66,7 +66,7 @@ RUN pip install requests bokeh
 RUN echo 'deb http://cran.rstudio.com/bin/linux/ubuntu trusty/' > /etc/apt/sources.list.d/r.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 RUN apt-get update && \
-    apt-get install -y r-base r-base-core r-base-html r-recommended
+    apt-get install --assume-yes r-base r-base-core r-base-html r-recommended
 
 #Rmagic
 RUN pip install rpy2

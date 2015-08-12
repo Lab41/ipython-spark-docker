@@ -7,7 +7,7 @@ ENV REFRESHED_AT 2015-06-12
 
 # Install wget
 RUN apt-get update
-RUN apt-get install -y wget
+RUN apt-get install --assume-yes wget
 
 # Install Oracle JDK
 RUN  wget --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz

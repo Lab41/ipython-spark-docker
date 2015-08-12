@@ -9,7 +9,7 @@ MAINTAINER Kyle F <kylef@lab41.org>
 RUN apt-get update
 
 #Runit
-RUN apt-get install -y runit
+RUN apt-get install --assume-yes runit
 CMD /usr/sbin/runsvdir-start
 
 #SSHD

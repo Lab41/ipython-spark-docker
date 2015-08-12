@@ -19,8 +19,7 @@ WORKDIR /ipython
 ADD config/dpkg/50unattended-upgrades /etc/apt/apt.conf.d/50unattended-upgrades
 RUN sed -i "s/precise/trusty/g" /etc/apt/sources.list && \
     apt-get update && \
-    apt-get upgrade --assume-yes libc6
-RUN apt-get install --assume-yes libstdc++6
+    apt-get upgrade --assume-yes libc6 libstdc++6
 RUN pip install --upgrade pyzmq
 
 # update spark libraries latest standalone install
