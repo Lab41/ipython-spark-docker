@@ -1,7 +1,7 @@
 # hadoop client for Lab41's CHD5 cluster
 FROM lab41/python-llvm
 MAINTAINER Kyle F <kylef@lab41.org>
-
+ENV REFRESHED_AT 2015-07-29
 
 ########################################################
 # add base services

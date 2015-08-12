@@ -1,7 +1,7 @@
 # hadoop client for Lab41's CHD5 cluster
 FROM lab41/cdh5-hadoop
 MAINTAINER Kyle F <kylef@lab41.org>
-
+ENV REFRESHED_AT 2015-07-29
 
 ########################################################
 # add ipython environment to existing CDH5
@@ -22,7 +22,8 @@ RUN cd /tmp && \
     cd zeromq-4.0.3 && \
     ./configure && \
     make install && \
-    ldconfig
+    ldconfig && \
+    rm -rf /tmp/zeromq-4.0.3*
 
 #Upgrade pip
 RUN pip install -U setuptools
@@ -83,7 +84,8 @@ RUN pip install scikit-learn
 # mdp data processing
 RUN cd /tmp; git clone https://github.com/mdp-toolkit/mdp-toolkit.git && \
     cd /tmp/mdp-toolkit; python setup.py install && \
-    cd /; rm -rf /tmp/mdp-toolkit
+    cd / && \
+    rm -rf /tmp/mdp-toolkit
 RUN easy_install MDP
 
 #IPython (jsonschema needed for IPython)
