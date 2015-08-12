@@ -3,14 +3,14 @@
 ##      Adding this temporarily until an Ubuntu:14.04 version exists upstream
 FROM lab41/oracle-jdk7
 MAINTAINER Kyle F "kylef@lab41.org"
-ENV REFRESHED_AT 2015-06-12
+ENV REFRESHED_AT 2015-07-29
 
 # CDH5 Repositories
-RUN wget http://archive.cloudera.com/cdh5/one-click-install/precise/amd64/cdh5-repository_1.0_all.deb
-RUN dpkg -i cdh5-repository_1.0_all.deb
+RUN cd /tmp && \
+    wget http://archive.cloudera.com/cdh5/one-click-install/precise/amd64/cdh5-repository_1.0_all.deb && \
+    dpkg -i cdh5-repository_1.0_all.deb
 RUN wget -q http://archive.cloudera.com/cdh5/ubuntu/precise/amd64/cdh/archive.key -O - | apt-key add -
-RUN wget -q http://archive.cloudera.com/gplextras5/ubuntu/precise/amd64/gplextras/cloudera.list \
-    -O /etc/apt/sources.list.d/gplextras.list
+RUN wget -q http://archive.cloudera.com/gplextras5/ubuntu/precise/amd64/gplextras/cloudera.list -O /etc/apt/sources.list.d/gplextras.list
 RUN apt-get update
 
 # Hadoop core packages

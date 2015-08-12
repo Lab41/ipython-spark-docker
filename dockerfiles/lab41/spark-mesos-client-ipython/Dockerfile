@@ -1,6 +1,7 @@
 # build off base
 FROM lab41/spark-base
 MAINTAINER Kyle F <kylef@lab41.org>
+ENV REFRESHED_AT 2015-07-29
 
 # install mesos
 RUN echo "deb http://repos.mesosphere.io/ubuntu/ trusty main" > /etc/apt/sources.list.d/mesosphere.list
@@ -19,13 +20,13 @@ WORKDIR /ipython
 ADD config/dpkg/50unattended-upgrades /etc/apt/apt.conf.d/50unattended-upgrades
 RUN sed -i "s/precise/trusty/g" /etc/apt/sources.list && \
     apt-get update && \
-    apt-get upgrade --assume-yes libc6
-RUN apt-get install --assume-yes libstdc++6
+    apt-get upgrade --assume-yes libc6 libstdc++6
 RUN pip install --upgrade pyzmq
 
 # update spark libraries latest standalone install
 RUN curl http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.4.tgz | tar -xz -C /usr/local/ && \
     cd /usr/local && rm spark && ln -s spark-1.4.1-bin-hadoop2.4 spark && \
+    rm -f /usr/local/spark && \
     rm /usr/bin/spark-shell && \
     ln --symbolic /usr/local/spark/bin/spark-shell /usr/bin/spark-shell
 
@@ -41,6 +42,7 @@ RUN apt-get upgrade --assume-yes
 RUN apt-get --assume-yes build-dep pam
 
 #Rebuild and install libpam with --disable-audit option
+RUN apt-get install --assume-yes libpam-modules
 RUN export CONFIGURE_OPTS=--disable-audit && \
     cd /root && \
     apt-get -b source pam && \
