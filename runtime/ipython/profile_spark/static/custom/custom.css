@@ -14,12 +14,12 @@ div#notebook, div.CodeMirror, div.output_area pre, div.output_wrapper, div.promp
 }
 */
 
-#notebook img{
+#notebook img,
+#ipython_notebook img{
   display:block;
   background: url(/static/custom/logo.png) no-repeat;
-  width: 500px;
-  height: 115px;
-  padding-left: 233px;
+  width: 200px;
+  height: 46px;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
@@ -64,6 +64,8 @@ a {color: #FF8282;}
   background-color: #EEE;
 }
 
+#checkpoint_status,
+#autosave_status,
 .checkpoint_status,
 .autosave_status {
   color: #AAA;

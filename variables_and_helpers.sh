@@ -12,7 +12,9 @@ __image_base=lab41/spark-base
 __image_master=lab41/spark-master
 __image_worker=lab41/spark-worker
 __image_client_standalone=lab41/spark-client-ipython
-__image_client_mesos=lab41/spark-mesos-client-ipython
+__image_client_mesos_base=lab41/spark-mesos-base
+__image_client_mesos_mesosworker=lab41/spark-mesos-mesosworker-ipython
+__image_client_mesos_dockerworker=lab41/spark-mesos-dockerworker-ipython
 __dockerfile_dir=$(pwd)/dockerfiles
 
 # networking
@@ -33,9 +35,10 @@ __host_dir_hive_conf=$(pwd)/runtime/cdh5/hive/conf
 # build function
 # NOTE: requires Dockerfiles in shared directory that follows naming scheme: prefix/label.dockerfile
 function build_docker_image() {
-  local __image=$1
+  local __stage=$1
+  local __image=$2
   echo -e "\n\n ----- Building $__image ----- \n\n"
-  pushd ${__dockerfile_dir}/${__image}
+  pushd ${__dockerfile_dir}/${__stage}/${__image}
   docker build -t $__image .
   popd
 }

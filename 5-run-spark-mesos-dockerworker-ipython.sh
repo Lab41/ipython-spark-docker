@@ -32,7 +32,7 @@ fi
 
 
 # set docker image
-__image=$__image_client_mesos
+__image=$__image_client_mesos_dockerworker
 
 
 # update repo and images
