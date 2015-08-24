@@ -48,9 +48,6 @@ RUN export CONFIGURE_OPTS=--disable-audit && \
     apt-get -b source pam && \
     dpkg -i libpam-doc*.deb libpam-modules*.deb libpam-runtime*.deb libpam0g*.deb
 
-# add mesos-specific pyspark shell.py
-ADD config/pyspark/executor_type/mesos/shell.py $SPARK_HOME/python/pyspark/shell.py
-
 # expose the IPython notebook port
 EXPOSE 8888
 

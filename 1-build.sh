@@ -17,4 +17,5 @@ build_docker_image $__image_base
 build_docker_image $__image_master
 build_docker_image $__image_worker
 build_docker_image $__image_client_standalone
-build_docker_image $__image_client_mesos
+build_docker_image $__image_client_mesos_base
+build_docker_image $__image_client_mesos_mesosworker
