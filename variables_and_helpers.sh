@@ -35,9 +35,10 @@ __host_dir_hive_conf=$(pwd)/runtime/cdh5/hive/conf
 # build function
 # NOTE: requires Dockerfiles in shared directory that follows naming scheme: prefix/label.dockerfile
 function build_docker_image() {
-  local __image=$1
+  local __stage=$1
+  local __image=$2
   echo -e "\n\n ----- Building $__image ----- \n\n"
-  pushd ${__dockerfile_dir}/${__image}
+  pushd ${__dockerfile_dir}/${__stage}/${__image}
   docker build -t $__image .
   popd
 }
