@@ -8,7 +8,7 @@ source variables_and_helpers.sh
 __spark_user=$1
 if [ "$__spark_user" == "" ]; then
   echo "You must provide a user. Usage:"
-  echo "$0 username mesos://ip:port hdfs://path/to/spark/binary"
+  echo "$0 username mesos://ip:port"
   exit 1
 fi
 
@@ -17,18 +17,10 @@ fi
 __spark_master=$2
 if [ "$__spark_master" == "" ]; then
   echo "You must provide a master. Usage:"
-  echo "$0 username mesos://ip:port hdfs://path/to/spark/binary"
+  echo "$0 username mesos://ip:port"
   exit 1
 fi
 
-
-# set master
-__spark_binary=$3
-if [ "$__spark_binary" == "" ]; then
-  echo "You must locate the spark binary. Usage:"
-  echo "$0 username mesos://ip:port hdfs://path/to/spark/binary"
-  exit 1
-fi
 
 
 # set docker image
@@ -50,7 +42,6 @@ __container=$(docker run  -d \
                           --net="host" \
                           --publish=8888:8888 \
                           --env "SPARK_MASTER=$__spark_master" \
-                          --env "SPARK_BINARY=$__spark_binary" \
                           --env "SPARK_RAM_DRIVER=64G" \
                           --env "SPARK_RAM_WORKER=8G" \
                           --env "CONTAINER_USER=$__spark_user" \

@@ -1,9 +1,9 @@
 # ipython-spark-docker
 
 This repo provides [Docker](http://www.docker.io) containers to run:
-  - [Spark](https://spark.apache.org) master and worker(s) on dedicated hosts
-  - [IPython](http://ipython.org) user interface within a dedicated Spark client
-  - [Mesos](http://mesos.apache.org)-enhanced IPython server for Mesos-mastered Spark jobs
+  - [Spark](https://spark.apache.org) master and worker(s) for running Spark in standalone mode on dedicated hosts
+  - [Mesos](http://mesos.apache.org)-enhanced containers for Mesos-mastered Spark jobs
+  - [IPython](http://ipython.org) web interface for interacting with Spark or Mesos master via [PySpark](https://spark.apache.org/docs/0.9.0/python-programming-guide.html)
 
 Please see the accompanying blog posts for the technical details and motivation behind this project:
   - <a href="http://lab41.github.io/blog/2015/04/13/ipython-on-spark-on-docker" target="_blank">Using Docker to Build an IPython-driven Spark Deployment</a>
@@ -64,6 +64,21 @@ Docker containers provide a portable and repeatable method for deploying the clu
 
 ## Usage
 
+### Option 1. Mesos-mastered Spark Jobs
+0. <strong>Install Mesos with Docker Containerizer</strong>: Install a Mesos cluster configured to use the Docker containerizer, which enables the Mesos slaves to execute Spark tasks within a Docker container.  The following script uses the Python library [Fabric](http://www.fabfile.org/) to install and configure a cluster according to [How To Configure a Production-Ready Mesosphere Cluster on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-configure-a-production-ready-mesosphere-cluster-on-ubuntu-14-04):
+  - Update IP Addresses of Mesos nodes in ```mesos/fabfile.py```
+    <pre><code>grep 'ip-address' mesos/fabfile.py</code></pre>
+
+  - Install/configure the cluster
+    <pre><code>mesos/1-setup-mesos-cluster.sh</code></pre>
+    Optional: ```./1-build.sh``` if you prefer instead to build the docker images from scratch (rather than the script pulling from Docker Hub)
+
+1. <strong>Run the client container on a client host</strong> (replace 'username-for-sparkjobs' and 'mesos-master-fqdn' below): <pre><code>./5-run-spark-mesos-dockerworker-ipython.sh username-for-sparkjobs mesos://mesos-master-fqdn:5050</code></pre>
+*Note: the client container will create username-for-sparkjobs when started, providing the ability to submit Spark jobs as a specific user and/or deploy different IPython servers for different users.
+
+
+
+### Option 2. Spark Standalone Mode
 **Installation and Deployment** - Build each Docker image and run each on separate dedicated hosts
 <div><strong>Tip</strong>: Build a common/shared host image with all necessary configurations and pre-built containers, which you can then use to deploy each node. When starting each node, you can pass the container run scripts as <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">User data</a> to initialize that container at boot time</div>
 
@@ -74,9 +89,9 @@ Docker containers provide a portable and repeatable method for deploying the clu
   1. Install <a href="http://docs.docker.com/installation/ubuntulinux" target="_blank">Docker v1.5+</a>, <a href="http://packages.ubuntu.com/trusty/jq" target="_blank">jq JSON processor</a>, and <a href="http://packages.ubuntu.com/trusty/iptables" target="_blank">iptables</a>. For example, on an Ubuntu host:
     <pre><code>./0-prepare-host.sh</code></pre>
   2. Update the Hadoop configuration files in ```runtime/cdh5/<hadoop|hive>/<multiple-files>``` with the correct hostnames for your Hadoop cluster.  Use ```grep FIXME -R .``` to find hostnames to change.
-  3. Generate new SSH keypair (```config/ssh/id_rsa``` and ```config/ssh/id_rsa.pub```), adding the public key to ```config/ssh/authorized_keys```.
-  4. (optional) Update ```SPARK_WORKER_CONFIG``` environment variable for Spark-specific options such as executor cores.  Update the variable via a shell ```export``` command or by updating ```config/sv/spark-client-iython/ipython/run```.
-  5. (optional) Comment out any unwanted packages in the base Dockerfile image ```dockerfiles/lab41/spark-base.dockerfile```.
+  3. Generate new SSH keypair (```dockerfiles/base/lab41/spark-base/config/ssh/id_rsa``` and ```dockerfiles/base/lab41/spark-base/config/ssh/id_rsa.pub```), adding the public key to ```dockerfiles/base/lab41/spark-base/config/ssh/authorized_keys```.
+  4. (optional) Update ```SPARK_WORKER_CONFIG``` environment variable for Spark-specific options such as executor cores.  Update the variable via a shell ```export``` command or by updating ```dockerfiles/standalone/lab41/spark-client-ipython/config/service/ipython/run```.
+  5. (optional) Comment out any unwanted Python packages in the base Dockerfile image ```dockerfiles/base/lab41/python-datatools/Dockerfile```.
 
 2. <strong>Get Docker images</strong>:
 <div>Option A: If you prefer to pull from Docker Hub:
@@ -91,6 +106,4 @@ docker pull lab41/spark-client-ipython</code></pre>
 <div>Ensure each host has a Fully-Qualified-Domain-Name (i.e. master.domain.com; worker1.domain.com; ipython.domain.com) for the Spark nodes to properly associate</div>
   1. <strong>Run the master container on the master host</strong>: <pre><code>./2-run-spark-master.sh</code></pre>
   2. <strong>Run worker container(s) on worker host(s)</strong> (replace 'spark-master-fqdn' below): <pre><code>./3-run-spark-worker.sh spark://spark-master-fqdn:7077</code></pre>
-  3. <strong>Run the client container on the client host</strong> (replace 'spark-master-fqdn' and 'mesos-master-fqdn' below): <pre><code>./4-run-spark-client-ipython.sh spark://spark-master-fqdn:7077
-     or
-     ./5-run-spark-mesos-client-ipython.sh USER_FOR_MESOS mesos://mesos-master-fqdn:5050</code></pre>
+  3. <strong>Run the client container on the client host</strong> (replace 'spark-master-fqdn' below): <pre><code>./4-run-spark-client-ipython.sh spark://spark-master-fqdn:7077</code></pre>
