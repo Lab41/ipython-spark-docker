@@ -2,7 +2,7 @@
 
 # configure prerequisites
 sudo apt-get update
-sudo apt-get install --assume-yes wget
+sudo apt-get install --assume-yes wget jq
 
 # install docker
 wget -qO- https://get.docker.com/ | sh
