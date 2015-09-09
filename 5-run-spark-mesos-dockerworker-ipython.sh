@@ -8,7 +8,7 @@ source variables_and_helpers.sh
 __spark_user=$1
 if [ "$__spark_user" == "" ]; then
   echo "You must provide a user. Usage:"
-  echo "$0 username mesos://ip:port hdfs://path/to/spark/binary"
+  echo "$0 username mesos://ip:port"
   exit 1
 fi
 
@@ -17,7 +17,7 @@ fi
 __spark_master=$2
 if [ "$__spark_master" == "" ]; then
   echo "You must provide a master. Usage:"
-  echo "$0 username mesos://ip:port hdfs://path/to/spark/binary"
+  echo "$0 username mesos://ip:port"
   exit 1
 fi
 
