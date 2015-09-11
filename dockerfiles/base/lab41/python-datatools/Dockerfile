@@ -89,7 +89,7 @@ RUN cd /tmp; git clone https://github.com/mdp-toolkit/mdp-toolkit.git && \
 RUN easy_install MDP
 
 #IPython (jsonschema needed for IPython)
-RUN pip install ipython jsonschema
+RUN pip install ipython jsonschema jupyter
 ENV IPYTHONDIR /ipython
 RUN mkdir $IPYTHONDIR && \
     ipython profile create nbserver
