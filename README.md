@@ -65,15 +65,29 @@ Docker containers provide a portable and repeatable method for deploying the clu
 ## Usage
 
 ### Option 1. Mesos-mastered Spark Jobs
-0. <strong>Install Mesos with Docker Containerizer</strong>: Install a Mesos cluster configured to use the Docker containerizer, which enables the Mesos slaves to execute Spark tasks within a Docker container.  The following script uses the Python library [Fabric](http://www.fabfile.org/) to install and configure a cluster according to [How To Configure a Production-Ready Mesosphere Cluster on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-configure-a-production-ready-mesosphere-cluster-on-ubuntu-14-04):
-  - Update IP Addresses of Mesos nodes in ```mesos/fabfile.py```
+1. <strong>Install Mesos with Docker Containerizer and Docker Images</strong>: Install a Mesos cluster configured to use the Docker containerizer, which enables the Mesos slaves to execute Spark tasks within a Docker container.
+
+    A. <strong>End-to-end Installation</strong>: The script ```mesos/1-setup-mesos-cluster.sh``` uses the Python library [Fabric](http://www.fabfile.org/) to install and configure a cluster according to [How To Configure a Production-Ready Mesosphere Cluster on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-configure-a-production-ready-mesosphere-cluster-on-ubuntu-14-04).  After installation, it also pulls the Docker images that will execute Spark tasks.  To use:
+    - Update IP Addresses of Mesos nodes in ```mesos/fabfile.py```. Find instances to change with:
     <pre><code>grep 'ip-address' mesos/fabfile.py</code></pre>
 
-  - Install/configure the cluster
-    <pre><code>mesos/1-setup-mesos-cluster.sh</code></pre>
+    - Install/configure the cluster:
+    <pre><code>./mesos/1-setup-mesos-cluster.sh</code></pre>
     Optional: ```./1-build.sh``` if you prefer instead to build the docker images from scratch (rather than the script pulling from Docker Hub)
 
-1. <strong>Run the client container on a client host</strong> (replace 'username-for-sparkjobs' and 'mesos-master-fqdn' below): <pre><code>./5-run-spark-mesos-dockerworker-ipython.sh username-for-sparkjobs mesos://mesos-master-fqdn:5050</code></pre>
+    B. <strong>Manual Installation</strong>: Follow the general steps in ```mesos/1-setup-mesos-cluster.sh``` to manually install:
+
+    - Install mesosphere on masters
+    - Install mesos on slaves
+    - Configure zookeeper on all nodes
+    - Configure and start masters
+    - Configure and start slaves
+    - Load docker images:
+      <pre><code>docker pull lab41/spark-mesos-dockerworker-ipython
+docker pull lab41/spark-mesos-mesosworker-ipython</code></pre>
+
+
+2. <strong>Run the client container on a client host</strong> (replace 'username-for-sparkjobs' and 'mesos-master-fqdn' below): <pre><code>./5-run-spark-mesos-dockerworker-ipython.sh username-for-sparkjobs mesos://mesos-master-fqdn:5050</code></pre>
 *Note: the client container will create username-for-sparkjobs when started, providing the ability to submit Spark jobs as a specific user and/or deploy different IPython servers for different users.
 
 
