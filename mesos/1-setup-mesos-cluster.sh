@@ -24,3 +24,8 @@ fab --parallel \
 fab --parallel \
     --roles=slaves \
       configure_and_start_slaves
+
+# load docker images
+fab --parallel \
+    --roles=slaves \
+      pull_docker_images

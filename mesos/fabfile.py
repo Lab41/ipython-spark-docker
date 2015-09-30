@@ -102,6 +102,8 @@ def configure_and_start_masters():
 
 def configure_and_start_slaves():
     execute(start_slaves)
+
+def pull_docker_images():
     execute(docker_pull_containers)
 
 def docker_restart():
