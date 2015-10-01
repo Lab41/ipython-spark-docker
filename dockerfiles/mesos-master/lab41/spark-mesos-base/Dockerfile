@@ -29,6 +29,7 @@ RUN curl http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.4.tgz | ta
     rm -f /usr/local/spark && \
     rm /usr/bin/spark-shell && \
     ln --symbolic /usr/local/spark/bin/spark-shell /usr/bin/spark-shell
+ENV SPARK_HOME /usr/local/spark-1.4.1-bin-hadoop2.4
 
 # install new bootstrap file (creates CONTAINER_USER)
 ADD config/bootstrap/bootstrap.sh /bootstrap.sh
