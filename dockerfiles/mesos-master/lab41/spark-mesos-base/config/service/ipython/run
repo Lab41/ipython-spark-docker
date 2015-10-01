@@ -12,4 +12,4 @@ source /env.bash
 
 # start notebook and connect to master (if not running)
 cd /ipython
-su - $CONTAINER_USER --preserve-environment -c "PYSPARK_DRIVER_PYTHON=ipython IPYTHON_OPTS=\"notebook --profile spark\" $SPARK_HOME/bin/pyspark --master $SPARK_MASTER $SPARK_WORKER_CONFIG"
+su - $CONTAINER_USER --preserve-environment -c "/jupyter-start.sh"

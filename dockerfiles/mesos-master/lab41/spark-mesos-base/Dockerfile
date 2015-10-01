@@ -29,9 +29,7 @@ RUN curl http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.4.tgz | ta
     rm -f /usr/local/spark && \
     rm /usr/bin/spark-shell && \
     ln --symbolic /usr/local/spark/bin/spark-shell /usr/bin/spark-shell
-
-# install new bootstrap file (creates CONTAINER_USER)
-ADD config/bootstrap/bootstrap.sh /bootstrap.sh
+ENV SPARK_HOME /usr/local/spark-1.4.1-bin-hadoop2.4
 
 # add runit services
 ADD config/service /etc/service
@@ -47,6 +45,13 @@ RUN export CONFIGURE_OPTS=--disable-audit && \
     cd /root && \
     apt-get -b source pam && \
     dpkg -i libpam-doc*.deb libpam-modules*.deb libpam-runtime*.deb libpam0g*.deb
+
+# install new bootstrap file (creates CONTAINER_USER)
+ADD config/bootstrap/bootstrap.sh /bootstrap.sh
+
+# setup notebook configuration
+ADD config/jupyter/jupyter-start.sh /jupyter-start.sh
+ADD config/jupyter/jupyter_notebook_config.py /jupyter_notebook_config.py
 
 # expose the IPython notebook port
 EXPOSE 8888
