@@ -52,6 +52,7 @@ ADD config/bootstrap/bootstrap.sh /bootstrap.sh
 # setup notebook configuration
 ADD config/jupyter/jupyter-start.sh /jupyter-start.sh
 ADD config/jupyter/jupyter_notebook_config.py /jupyter_notebook_config.py
+RUN chmod a+x /jupyter-start.sh
 
 # expose the IPython notebook port
 EXPOSE 8888
