@@ -83,7 +83,7 @@ conf = (SparkConf()
 if os.environ.get("SPARK_RAM_DRIVER"):
     conf.set("spark.driver.memory", os.environ["SPARK_RAM_DRIVER"])
 if os.environ.get("SPARK_RAM_WORKER"):
-    conf.set("spark.executor_memory", os.environ["SPARK_RAM_WORKER"])
+    conf.set("spark.executor.memory", os.environ["SPARK_RAM_WORKER"])
 
 # set the UI port
 conf.set("spark.ui.port", ui_get_available_port())
