@@ -23,6 +23,7 @@ __iptables_ports=2122,4040,7077,8080,8081,8100:65535
 __hostname=$(hostname --fqdn)
 
 # container-specific
+__host_dir_data=/data
 __host_dir_ipython_notebook=$(pwd)/runtime/ipython
 __host_dir_hadoop_conf=$(pwd)/runtime/cdh5/hadoop/conf
 __host_dir_hive_conf=$(pwd)/runtime/cdh5/hive/conf
