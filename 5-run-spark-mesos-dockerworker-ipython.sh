@@ -42,12 +42,13 @@ __container=$(docker run  -d \
                           --net="host" \
                           --publish=8888:8888 \
                           --env "SPARK_MASTER=$__spark_master" \
-                          --env "SPARK_RAM_DRIVER=64G" \
-                          --env "SPARK_RAM_WORKER=8G" \
+                          --env "SPARK_RAM_DRIVER=96G" \
+                          --env "SPARK_RAM_WORKER=64G" \
                           --env "CONTAINER_USER=$__spark_user" \
                           --volume=$__host_dir_hadoop_conf:/etc/hadoop/conf \
                           --volume=$__host_dir_hive_conf:/etc/hive/conf \
                           --volume=$__host_dir_ipython_notebook:/ipython \
+                          --volume=$__host_dir_data:/data \
                             $__image)
 
 
