@@ -95,6 +95,13 @@ conf.set("spark.mesos.executor.home", "/usr/local/spark-1.4.1-bin-hadoop2.4")
 conf.set("spark.executorEnv.MESOS_NATIVE_LIBRARY", "/usr/local/lib/libmesos.so")
 conf.set("spark.network.timeout", "100")
 
+# additional spark configuration
+conf.set("spark.akka.frameSize", 100)
+conf.set("spark.worker.cleanup.enabled", "true")
+conf.set("spark.shuffle.io.preferDirectBufs", 15)
+conf.set("spark.core.connection.ack.wait.timeout", 600)
+conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+conf.set("spark.driver.maxResultSize", "8g")
 
 # establish config-based context
 sc = SparkContext(appName="DockerIPythonShell", pyFiles=add_files, conf=conf)
