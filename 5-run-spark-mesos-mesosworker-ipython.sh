@@ -54,6 +54,7 @@ __container=$(docker run  -d \
                           --env "SPARK_RAM_DRIVER=96G" \
                           --env "SPARK_RAM_WORKER=64G" \
                           --env "CONTAINER_USER=$__spark_user" \
+                          --env "IPYTHON_OPTS=\"notebook --profile spark\"" \
                           --volume=$__host_dir_hadoop_conf:/etc/hadoop/conf \
                           --volume=$__host_dir_hive_conf:/etc/hive/conf \
                           --volume=$__host_dir_ipython_notebook:/ipython \
