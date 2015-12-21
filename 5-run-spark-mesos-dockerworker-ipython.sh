@@ -29,7 +29,7 @@ __image=$__image_client_mesos_dockerworker
 
 # update repo and images
 #git pull origin master && \
-docker pull $__image # alternatively: ./1-build.sh
+#docker pull $__image # alternatively: ./1-build.sh
 
 
 # get host DNS server (for internal resolution)
