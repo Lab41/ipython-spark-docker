@@ -75,26 +75,25 @@ if os.environ.get("ADD_FILES") is not None:
 if os.environ.get("SPARK_EXECUTOR_URI"):
     SparkContext.setSystemProperty("spark.executor.uri", os.environ["SPARK_EXECUTOR_URI"])
 
+
 # setup mesos-based connection
 conf = (SparkConf()
          .setMaster(os.environ["SPARK_MASTER"]))
 
-# optionally set memory limits
-if os.environ.get("SPARK_RAM_DRIVER"):
-    conf.set("spark.driver.memory", os.environ["SPARK_RAM_DRIVER"])
-if os.environ.get("SPARK_RAM_WORKER"):
-    conf.set("spark.executor.memory", os.environ["SPARK_RAM_WORKER"])
 
 # set the UI port
 conf.set("spark.ui.port", ui_get_available_port())
+
 
 # optionally set the Spark binary
 if os.environ.get("SPARK_BINARY"):
     conf.set("spark.executor.uri", os.environ["SPARK_BINARY"])
 
+
 # establish config-based context
 sc = SparkContext(appName="DockerIPythonShell", pyFiles=add_files, conf=conf)
 atexit.register(lambda: sc.stop())
+
 
 try:
     # Try to access HiveConf, it will raise exception if Hive is not added

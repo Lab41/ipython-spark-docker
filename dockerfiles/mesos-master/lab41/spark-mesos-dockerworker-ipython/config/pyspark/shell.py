@@ -79,12 +79,6 @@ if os.environ.get("SPARK_EXECUTOR_URI"):
 conf = (SparkConf()
          .setMaster(os.environ["SPARK_MASTER"]))
 
-# optionally set memory limits
-if os.environ.get("SPARK_RAM_DRIVER"):
-    conf.set("spark.driver.memory", os.environ["SPARK_RAM_DRIVER"])
-if os.environ.get("SPARK_RAM_WORKER"):
-    conf.set("spark.executor_memory", os.environ["SPARK_RAM_WORKER"])
-
 # set the UI port
 conf.set("spark.ui.port", ui_get_available_port())
 
@@ -94,7 +88,6 @@ conf.set("spark.mesos.executor.docker.image", "lab41/spark-mesos-dockerworker-ip
 conf.set("spark.mesos.executor.home", "/usr/local/spark-1.4.1-bin-hadoop2.4")
 conf.set("spark.executorEnv.MESOS_NATIVE_LIBRARY", "/usr/local/lib/libmesos.so")
 conf.set("spark.network.timeout", "100")
-
 
 # establish config-based context
 sc = SparkContext(appName="DockerIPythonShell", pyFiles=add_files, conf=conf)

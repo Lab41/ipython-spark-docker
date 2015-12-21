@@ -37,12 +37,23 @@ __image=$__image_client_mesos_mesosworker
 
 # update repo and images
 #git pull origin master && \
-docker pull $__image # alternatively: ./1-build.sh
+#docker pull $__image # alternatively: ./1-build.sh
 
 
 # get host DNS server (for internal resolution)
 __dns=$(dns_detect)
 
+# set additional spark options
+__spark_worker_config="--executor-memory 32G \
+                       --conf spark.driver.memory=32G \
+                       --conf spark.driver.maxResultSize=8g \
+                       --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
+                       --conf spark.core.connection.ack.wait.timeout=600 \
+                       --conf spark.worker.cleanup.enabled=true \
+                       --conf spark.shuffle.io.preferDirectBufs=15 \
+                       --conf spark.akka.frameSize=100 \
+                       --conf spark.driver.extraJavaOptions=-Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 \
+                       --conf spark.executor.extraJavaOptions=-Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8"
 
 # run container
 echo "starting $__image..."
@@ -51,9 +62,10 @@ __container=$(docker run  -d \
                           --publish=8888:8888 \
                           --env "SPARK_MASTER=$__spark_master" \
                           --env "SPARK_BINARY=$__spark_binary" \
-                          --env "SPARK_RAM_DRIVER=96G" \
-                          --env "SPARK_RAM_WORKER=64G" \
+                          --env "SPARK_WORKER_CONFIG=$__spark_worker_config" \
                           --env "CONTAINER_USER=$__spark_user" \
+                          --env "IPYTHON_OPTS=notebook /ipython" \
+                          --env "LANG=en_US.UTF-8" \
                           --volume=$__host_dir_hadoop_conf:/etc/hadoop/conf \
                           --volume=$__host_dir_hive_conf:/etc/hive/conf \
                           --volume=$__host_dir_ipython_notebook:/ipython \
