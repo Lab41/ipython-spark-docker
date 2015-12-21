@@ -81,15 +81,6 @@ conf = (SparkConf()
          .setMaster(os.environ["SPARK_MASTER"]))
 
 
-# optionally set memory limits
-if os.environ.get("SPARK_RAM_DRIVER"):
-    conf.set("spark.driver.memory", os.environ["SPARK_RAM_DRIVER"])
-
-
-if os.environ.get("SPARK_RAM_WORKER"):
-    conf.set("spark.executor.memory", os.environ["SPARK_RAM_WORKER"])
-
-
 # set the UI port
 conf.set("spark.ui.port", ui_get_available_port())
 
@@ -98,13 +89,6 @@ conf.set("spark.ui.port", ui_get_available_port())
 if os.environ.get("SPARK_BINARY"):
     conf.set("spark.executor.uri", os.environ["SPARK_BINARY"])
 
-# additional spark configuration
-conf.set("spark.akka.frameSize", 100)
-conf.set("spark.worker.cleanup.enabled", "true")
-conf.set("spark.shuffle.io.preferDirectBufs", 15)
-conf.set("spark.core.connection.ack.wait.timeout", 600)
-conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-conf.set("spark.driver.maxResultSize", "8g")
 
 # establish config-based context
 sc = SparkContext(appName="DockerIPythonShell", pyFiles=add_files, conf=conf)
