@@ -44,9 +44,7 @@ __spark_worker_config="--executor-memory 32G \
                        --conf spark.core.connection.ack.wait.timeout=600 \
                        --conf spark.worker.cleanup.enabled=true \
                        --conf spark.shuffle.io.preferDirectBufs=15 \
-                       --conf spark.akka.frameSize=100 \
-                       --conf spark.driver.extraJavaOptions=-Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8 \
-                       --conf spark.executor.extraJavaOptions=-Dsun.jnu.encoding=UTF-8 -Dfile.encoding=UTF-8"
+                       --conf spark.akka.frameSize=100"
 
 # run container
 echo "starting $__image..."
