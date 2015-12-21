@@ -36,7 +36,6 @@ ADD config/service /etc/service
 
 # configure PAM for user auth
 RUN apt-get update --assume-yes
-RUN apt-get upgrade --assume-yes
 RUN apt-get --assume-yes build-dep pam
 
 #Rebuild and install libpam with --disable-audit option
