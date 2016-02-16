@@ -18,9 +18,10 @@ WORKDIR /ipython
 
 # ensure >= glibc 2.16 and latest libstdc/pyzmq for mesos v0.22.1
 ADD config/dpkg/50unattended-upgrades /etc/apt/apt.conf.d/50unattended-upgrades
-RUN sed -i "s/precise/trusty/g" /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get upgrade --assume-yes libc6 libstdc++6
+RUN for f in $(find /etc/apt/sources.list* -type f); do \
+        echo "updating $f..."; \
+        sed -i "s/precise/trusty/g" $f; \
+    done && \
 RUN pip install --upgrade pyzmq
 
 # update spark libraries latest standalone install
