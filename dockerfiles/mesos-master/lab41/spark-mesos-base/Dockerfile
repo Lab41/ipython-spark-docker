@@ -22,6 +22,8 @@ RUN for f in $(find /etc/apt/sources.list* -type f); do \
         echo "updating $f..."; \
         sed -i "s/precise/trusty/g" $f; \
     done && \
+    apt-get update && \
+    apt-get upgrade --assume-yes libc6 libstdc++6
 RUN pip install --upgrade pyzmq
 
 # update spark libraries latest standalone install
