@@ -85,7 +85,7 @@ conf.set("spark.ui.port", ui_get_available_port())
 # configure docker containers as executors
 conf.setSparkHome(os.environ.get("SPARK_HOME"))
 conf.set("spark.mesos.executor.docker.image", "lab41/spark-mesos-dockerworker-ipython")
-conf.set("spark.mesos.executor.home", "/usr/local/spark-1.4.1-bin-hadoop2.4")
+conf.set("spark.mesos.executor.home", "/usr/local/spark-{}-bin-hadoop{}".format(os.environ.get('SPARK_VERSION', '1.5.2'), os.environ.get('HADOOP_VERSION', '2.4')))
 conf.set("spark.executorEnv.MESOS_NATIVE_LIBRARY", "/usr/local/lib/libmesos.so")
 conf.set("spark.network.timeout", "100")
 

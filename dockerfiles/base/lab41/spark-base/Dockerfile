@@ -40,9 +40,13 @@ VOLUME ["/data", "/etc/hadoop/conf", "/etc/hive/conf"]
 #   http://ramhiser.com/2015/02/01/configuring-ipython-notebook-support-for-pyspark
 ########################################################
 
+# set spark version
+ENV SPARK_VERSION 1.5.2
+ENV HADOOP_VERSION 2.4
+
 # update spark libraries latest standalone install
-RUN curl http://d3kbcqa49mib13.cloudfront.net/spark-1.2.0-bin-hadoop2.4.tgz | tar -xz -C /usr/local/ && \
-    cd /usr/local && ln -s spark-1.2.0-bin-hadoop2.4 spark && \
+RUN curl http://d3kbcqa49mib13.cloudfront.net/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz | tar -xz -C /usr/local/ && \
+    cd /usr/local && ln -s spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} spark && \
     rm /usr/bin/spark-shell && \
     ln --symbolic /usr/local/spark/bin/spark-shell /usr/bin/spark-shell
 

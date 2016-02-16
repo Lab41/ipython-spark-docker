@@ -24,12 +24,12 @@ RUN sed -i "s/precise/trusty/g" /etc/apt/sources.list && \
 RUN pip install --upgrade pyzmq
 
 # update spark libraries latest standalone install
-RUN curl http://d3kbcqa49mib13.cloudfront.net/spark-1.4.1-bin-hadoop2.4.tgz | tar -xz -C /usr/local/ && \
-    cd /usr/local && rm spark && ln -s spark-1.4.1-bin-hadoop2.4 spark && \
+RUN curl http://d3kbcqa49mib13.cloudfront.net/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz | tar -xz -C /usr/local/ && \
+    cd /usr/local && rm spark && ln -s spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} spark && \
     rm -f /usr/local/spark && \
     rm /usr/bin/spark-shell && \
     ln --symbolic /usr/local/spark/bin/spark-shell /usr/bin/spark-shell
-ENV SPARK_HOME /usr/local/spark-1.4.1-bin-hadoop2.4
+ENV SPARK_HOME /usr/local/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}
 
 # add runit services
 ADD config/service /etc/service
