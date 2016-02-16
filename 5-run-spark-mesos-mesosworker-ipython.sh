@@ -45,6 +45,7 @@ __dns=$(dns_detect)
 
 # set additional spark options
 __spark_worker_config="--executor-memory 32G \
+                       --conf spark.executor.memory=32G \
                        --conf spark.driver.memory=32G \
                        --conf spark.driver.maxResultSize=8g \
                        --conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
