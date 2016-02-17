@@ -41,7 +41,7 @@ VOLUME ["/data", "/etc/hadoop/conf", "/etc/hive/conf"]
 ########################################################
 
 # set spark version
-ENV SPARK_VERSION 1.5.2
+ENV SPARK_VERSION 1.6.0
 ENV HADOOP_VERSION 2.4
 
 # update spark libraries latest standalone install
