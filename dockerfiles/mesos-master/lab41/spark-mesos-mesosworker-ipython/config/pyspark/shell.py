@@ -40,6 +40,12 @@ from pyspark.context import SparkContext
 from pyspark.sql import SQLContext, HiveContext
 from pyspark.storagelevel import StorageLevel
 
+import json
+import os
+import urllib2
+import IPython, jupyter_core
+import glob
+from IPython.lib import kernel
 
 # find an available port for SparkUI
 def ui_get_available_port():
@@ -90,8 +96,30 @@ if os.environ.get("SPARK_BINARY"):
     conf.set("spark.executor.uri", os.environ["SPARK_BINARY"])
 
 
+# locate current notebook server
+api = 'http://127.0.0.1:8888/'
+with open(glob.glob("{}/nbserver-*.json".format(jupyter_core.paths.jupyter_runtime_dir()))[0]) as infile:
+    cfg = json.loads(infile.read())
+    if cfg['url']:
+        api = cfg['url']
+
+# search all sessions in notebook server
+sessions = json.load(urllib2.urlopen('{}api/sessions'.format(api)))
+
+# locate current notebook kernel
+connection_file_path = kernel.get_connection_file()
+connection_file = os.path.basename(connection_file_path)
+kernel_id = connection_file.split('-', 1)[1].split('.')[0]
+
+# get name of notebook matching current notebook kernel
+notebook_name = "pyspark"
+for sess in sessions:
+    if sess['kernel']['id'] == kernel_id:
+        notebook_name =  os.path.basename(sess['notebook']['path'])
+        break
+
 # establish config-based context
-sc = SparkContext(appName="DockerIPythonShell", pyFiles=add_files, conf=conf)
+sc = SparkContext(appName=notebook_name, pyFiles=add_files, conf=conf)
 atexit.register(lambda: sc.stop())
 
 
