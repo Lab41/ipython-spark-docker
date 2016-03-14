@@ -4,7 +4,7 @@ MAINTAINER Kyle F <kylef@lab41.org>
 ENV REFRESHED_AT 2015-07-29
 
 # install mesos
-ENV MESOS_VERSION 0.27.0-0.2.190.ubuntu1404
+ENV MESOS_VERSION 0.27.2-2.0.15.ubuntu1404
 RUN echo "deb http://repos.mesosphere.io/ubuntu/ trusty main" > /etc/apt/sources.list.d/mesosphere.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E56151BF
 RUN apt-get --assume-yes update
